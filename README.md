@@ -7,9 +7,9 @@ Back-end: .NET8 Web API; In-memory lead collection\
 Front-end: Angular17/RxJS/Material
 
 ## Description
-**Lead.Server** - ASP.NET Web API service that supports CRUD operations for a lead collection: GET, GET/id, POST, PUT/id, DELETE/id
+**Lead.Server** - ASP.NET Web API service that supports CRUD operations for a lead collection: GET, GET/id, POST, PUT/id, DELETE/id.
 
-**Lead.Server.Test** - An MS Test project with unit tests for Leads.Server.
+**Lead.Server.Test** - MS Test project with unit tests for Leads.Server.
 
 See [the detailed API spec](https://github.com/ilyadubovis/Leads/blob/master/Leads.Server/leads.openapi.json)
 
