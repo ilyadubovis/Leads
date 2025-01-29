@@ -1,0 +1,6 @@
+@Leads.Server_HostAddress = http://localhost:5030
+
+GET {{Leads.Server_HostAddress}}/api/leads/
+Accept: application/json
+
+###

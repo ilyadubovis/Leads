@@ -1,0 +1,22 @@
+<div class="container mt-4" *ngIf="(leadDetails | async)">
+  <mat-card appearance="outlined">
+    <mat-card-header style="align-items:self-start">
+      <mat-card-title>{{ (leadDetails | async).name }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content fxFlex>
+      <p><strong>Phone Number:</strong> {{ (leadDetails | async).phoneNumber }}</p>
+      <p><strong>Email:</strong> {{ (leadDetails | async).email || 'not specified' }}</p>
+      <p><strong>Address:</strong> {{ (leadDetails | async).streetAddress }}</p>
+      <p><strong>City:</strong> {{ (leadDetails | async).city }}</p>
+      <p><strong>State:</strong> {{ (leadDetails | async).state }}</p>
+      <p><strong>Zip Code:</strong> {{ (leadDetails | async).zipCode }}</p>
+      <p><strong>Communication via Email:</strong> {{ (leadDetails | async).canCommunicateViaEmail ? 'Yes' : 'No' }}</p>
+      <p><strong>Communication via Text:</strong> {{ (leadDetails | async).canCommunicateViaText ? 'Yes' : 'No' }}</p>
+      <p><strong>Comment:</strong> {{ (leadDetails | async).comment }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <a routerLink="/">Return to Dashboard</a>
+    </mat-card-actions>
+  </mat-card>
+</div>
