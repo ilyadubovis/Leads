@@ -12,9 +12,11 @@ import { map } from 'rxjs';
 })
 
 export class LeadListComponent implements OnInit {
+
   dataSource!: MatTableDataSource<Lead>;
   displayedColumns = ['name', 'phoneNumber', 'zipCode', 'details'];
   loading = true;
+
   constructor(private leadService: LeadService, private router: Router) { }
   ngOnInit(): void {
     this.loadLeads();

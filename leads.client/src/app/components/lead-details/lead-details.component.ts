@@ -11,7 +11,7 @@ import { Observable, shareReplay } from 'rxjs';
 })
 export class LeadDetailsComponent implements OnInit {
 
-  leadDetails: Observable<any> | undefined;
+  leadDetails: Observable<LeadDetails> | undefined;
 
   constructor(private route: ActivatedRoute, private leadService: LeadService) { }
 
