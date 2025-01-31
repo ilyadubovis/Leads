@@ -3,11 +3,12 @@ Leads is an ASP.NET application.
 It is built a single Visual Studio project.
 
 ## Building blocks
-Back-end: .NET8 Web API; In-memory lead collection\
-Front-end: Angular17/RxJS/Material
+Back-end: .NET8 Web API, SignalR;\
+Front-end: Angular17, RxJS, Angular Material.
 
 ## Description
-**Leads.Server** - ASP.NET Web API service that supports CRUD operations for a lead collection: GET, GET/id, POST, PUT/id, DELETE/id.
+**Leads.Server** - ASP.NET Web API service that supports CRUD operations for a lead collection: GET, GET/id, POST, PUT/id, DELETE/id.\
+The service uses SignalR to send real-time notifications to the client app on lead collection change.
 
 **Leads.Server.Test** - MS Test project with unit tests for Leads.Server.
 
