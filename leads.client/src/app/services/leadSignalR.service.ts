@@ -17,6 +17,9 @@ export class LeadSignalRService {
   }
 
   startConnection(): Observable<void> {
+    if (this.hubConnection.state != signalR.HubConnectionState.Disconnected) {
+      return new Observable;
+    }
     return new Observable<void>((observer) => {
       this.hubConnection
         .start()
@@ -30,7 +33,7 @@ export class LeadSignalRService {
           observer.error(error);
         });
     })
-    .pipe(delay(1000));
+    .pipe(delay(2000));
   }
 
   receiveMessage(): Observable<string> {
