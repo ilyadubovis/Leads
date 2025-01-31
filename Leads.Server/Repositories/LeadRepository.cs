@@ -18,7 +18,7 @@ public class LeadRepository(InMemoryDBContext dbContext) : ILeadRepositiry
         {
             return lead;
         }
-        throw new Exception("A lead with the given email and/or phone number already exists.");
+        throw new ArgumentException("A lead with the given email and/or phone number already exists.");
     }
 
     public Lead? UpdateLead(Guid leadId, Lead lead)

@@ -7,7 +7,7 @@ namespace Leads.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class LeadsController(ILeadService leadService, IMapper mapper) : Controller
+public class LeadsController(ILeadService leadService, IMapper mapper, LeadSignalRHub leadHub) : Controller
 {
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -31,7 +31,8 @@ public class LeadsController(ILeadService leadService, IMapper mapper) : Control
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public ActionResult CreateLead([FromBody] LeadInputViewModel leadInputViewModel)
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> CreateLead([FromBody] LeadInputViewModel leadInputViewModel)
     {
         try
         {
@@ -42,18 +43,24 @@ public class LeadsController(ILeadService leadService, IMapper mapper) : Control
             leadService.SendTextMessage(createdLead, "Welcome. An agent will call you soon.");
             leadService.SendEmail(createdLead, "Welcome", "An agent will call you soon.");
 
+            await leadHub.LeadCreated(createdLead.Id);
+
             return CreatedAtAction("CreateLead", new { id = createdLead.Id }, createdLead);
+        }
+        catch (ArgumentException ex)
+        {
+            return Conflict(ex.Message);
         }
         catch (Exception ex)
         {
-            return Conflict(ex.Message);
+            return BadRequest(ex.Message);
         }
     }
 
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<Lead> UpdateLead(Guid id, [FromBody] LeadInputViewModel leadInputViewModel)
+    public async Task<ActionResult<Lead>> UpdateLead(Guid id, [FromBody] LeadInputViewModel leadInputViewModel)
     {
         var lead = mapper.Map<Lead>(leadInputViewModel);
         var updatedLead = leadService.UpdateLead(id, lead);
@@ -62,16 +69,19 @@ public class LeadsController(ILeadService leadService, IMapper mapper) : Control
             return BadRequest($"A lead with the Id {id} does not exist.");
         }
 
+        await leadHub.LeadUpdated(updatedLead.Id);
+
         return Ok(updatedLead);
     }
 
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult DeleteLead(Guid id)
+    public async Task<ActionResult> DeleteLead(Guid id)
     {
         if (leadService.DeleteLead(id))
         {
+            await leadHub.LeadDeleted(id);
             return Ok();
         }
 
